@@ -6,6 +6,9 @@ In this Code, I write about:
 
 - DataSource API for Photos
 - Photo's Details
+- Two data source with option to switch between them.
+- Separate photo fetching functionality.
+- Search / filter photos with some user input.
 
 ## Compatibility
 
