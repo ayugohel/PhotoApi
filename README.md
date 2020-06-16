@@ -13,7 +13,7 @@ In this Code, I write about:
 - PhotosApi is compatible with iOS 13.0+.
 - Using Swift Package Manager, I have used [SDWebImage repo](https://github.com/SDWebImage/SDWebImage.git) for Image Download and cache store.
 
-#### Have Fun 😁
+#### Thank you
 
 <h3 align="center">
 <img src="Photo.gif" alt="Screen record of PhotosApi for iOS"/>
