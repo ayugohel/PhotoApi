@@ -50,7 +50,7 @@ class PhotoListOneVC: UIViewController  {
 
     private func apiPIXABAY() {
         
-        let url = "https://pixabay.com/api/?key="+API_KEY+"&image_type=photo"
+        let url = "https://pixabay.com/api/?key="+API_KEY+"&image_type=photo&per_page=100"
         
         var request = URLRequest(url: URL(string: url )!)
 
