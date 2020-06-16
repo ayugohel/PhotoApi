@@ -20,6 +20,6 @@ In this Code, I write about:
 <h3 align="center">
 <!--   <img width= 24.6% src="https://user-images.githubusercontent.com/9360037/79872498-74b01600-8418-11ea-99b5-9b2dafd8bc31.jpeg"> -->
 
-<img src="PhotosApi.gif" alt="Screen record of PhotosApi for iOS"/>
+<img width=20% height=30%  src="PhotosApi.gif" alt="Screen record of PhotosApi for iOS"/>
 </h3>
 
