@@ -18,6 +18,6 @@ In this Code, I write about:
 #### Thank you
 
 <h3 align="center">
-<img src="Photo.gif" alt="Screen record of PhotosApi for iOS"/>
+<img src="" alt="Screen record of PhotosApi for iOS"/>
 </h3>
 
