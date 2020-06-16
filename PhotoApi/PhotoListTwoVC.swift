@@ -1,8 +1,8 @@
 //
 //  PhotoListVC.swift
-//  GasBuddy PhotoApp
+//  PhotoApi
 //
-//  Created by Ayushi on 2020-06-12.
+//  Created by Ayushi on 2020-06-15.
 //  Copyright © 2020 Ayushi. All rights reserved.
 //
 
