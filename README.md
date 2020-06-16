@@ -9,9 +9,9 @@ In this Code, I write about:
 
 ## Compatibility
 
-Written in Swift 5 and requires Xcode 11.0
-PhotosApi is compatible with iOS 13.0+.
-using Swift Package Manager, I have used [SDWebImage repo](https://github.com/SDWebImage/SDWebImage.git) for Image Download and cache store.
+- Written in Swift 5 and requires Xcode 11.0
+- PhotosApi is compatible with iOS 13.0+.
+- Using Swift Package Manager, I have used [SDWebImage repo](https://github.com/SDWebImage/SDWebImage.git) for Image Download and cache store.
 
 #### Have Fun 😁
 
