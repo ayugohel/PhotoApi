@@ -7,6 +7,18 @@
 //
 
 import UIKit
+@_exported import SDWebImage
+
+// Main Home Screen
+
+// MARK: - Class UICollectionViewCell -------
+
+class ItemCell: UICollectionViewCell {
+
+    @IBOutlet weak var lblTitle: UILabel!
+    @IBOutlet weak var imgSaprator: UIImageView!
+
+}
 
 class PageContentVC: UIViewController {
     
@@ -18,11 +30,11 @@ class PageContentVC: UIViewController {
 
     // MARK: - Variables -------
 
+    var line : CALayer?
     var arrTitle : [ApiType] = ApiType.allCases
     var selectedIndex : Int = 0
     var identifiers : [UIViewController] = []
     private var pageViewController: UIPageViewController?
-
     
     lazy var firstView : PhotoListOneVC = {
         return StoryBoard.instantiateViewController(identifier: "PhotoListOneVC") as! PhotoListOneVC
@@ -34,8 +46,7 @@ class PageContentVC: UIViewController {
     
 
     // MARK: - Functios -------
-    
-    
+
     private func setUPView() {
         
         self.identifiers = [firstView, secondView]
@@ -91,61 +102,44 @@ extension PageContentVC: UIPageViewControllerDataSource, UIPageViewControllerDel
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
-        if (!completed) { return }
         
+        guard completed, let viewControllerIndex = identifiers.firstIndex(of: pageViewController.viewControllers!.first!) else {
+                return
+        }
+        
+        print(viewControllerIndex)
+        self.reloadCollectionView(viewControllerIndex)
+
     }
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
-        guard let viewControllerIndex = identifiers.firstIndex(of: viewController) else {
-            return nil
-        }
+        guard let viewControllerIndex = identifiers.firstIndex(of: viewController) else { return nil }
         
         let previousIndex = viewControllerIndex - 1
         
-        guard previousIndex >= 0 else {
-            return nil
-        }
+        guard previousIndex >= 0 else { return nil }
         
-        guard identifiers.count > previousIndex else {
-            return nil
-        }
+        guard identifiers.count > previousIndex else { return nil }
         
-        self.reloadCollectionView(previousIndex)
         return identifiers[previousIndex]
 
     }
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
 
-        guard let viewControllerIndex = identifiers.firstIndex(of: viewController) else {
-            return nil
-        }
+        guard let viewControllerIndex = identifiers.firstIndex(of: viewController) else { return nil }
         
         let nextIndex = viewControllerIndex + 1
         let orderedViewControllersCount = identifiers.count
         
-        guard orderedViewControllersCount != nextIndex else {
-            return nil
-        }
+        guard orderedViewControllersCount != nextIndex else { return nil }
         
-        guard orderedViewControllersCount > nextIndex else {
-            return nil
-        }
+        guard orderedViewControllersCount > nextIndex else { return nil }
         
-        self.reloadCollectionView(nextIndex)
         return identifiers[nextIndex]
 
     }
-
-}
-
-// MARK: - Class UICollectionViewCell -------
-
-class ItemCell: UICollectionViewCell {
-
-    @IBOutlet weak var lblTitle: UILabel!
-    @IBOutlet weak var imgSaprator: UIImageView!
 
 }
 
@@ -167,7 +161,7 @@ extension PageContentVC: UICollectionViewDataSource, UICollectionViewDelegate, U
         
         cell.lblTitle.textColor = selectedIndex == indexPath.row ? .orange : .gray
         cell.imgSaprator.backgroundColor = selectedIndex == indexPath.row ? .orange : .clear
-        
+
         return cell
     }
     

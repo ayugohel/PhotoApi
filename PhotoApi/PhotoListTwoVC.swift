@@ -7,14 +7,20 @@
 //
 
 import UIKit
-//import SDWebImage
+
+// Second API Screen
+
+// MARK: - Class UICollectionViewCell -------
+
+class collPhotoCell: UICollectionViewCell {
+    @IBOutlet weak var photo: UIImageView!
+}
+
 
 class PhotoListTwoVC: UIViewController {
     
-    
     // MARK: - Outlets -------
     
-    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collPhotos: UICollectionView!
     
     // MARK: - Variables -------
@@ -30,32 +36,23 @@ class PhotoListTwoVC: UIViewController {
     fileprivate func setupView() {
         
         self.navigationController?.navigationBar.barTintColor = .white
-        self.apiImgur()
+        self.apiUNSPLASH()
         
     }
     
     
     // MARK: - API Functions -------
     
-    private func apiImgur() {
-        
-        
-//        "https://api.imgur.com/3/gallery/hot/viral"
-        
-        let url = "https://api.unsplash.com/photos/?client_id="+unsplashAccessKey
-            
-//            "https://api.unsplash.com/search/photos/?client_id="+unsplashAccessKey+"&order_by=latest&query=yellow&color=orange"
-//
-        
-        
-//        let params = ["color" : "orange", "order_by" : "latest" ] as [String:Any]
+    /** API Function for Unsplash Photos  */
+    
+    private func apiUNSPLASH() {
+
+        let url = "https://api.unsplash.com/photos/?client_id="+unsplashAccessKey+"&per_page=30"
+
         var request = URLRequest(url: URL(string: url )!)
-        
         request.httpMethod = "GET"
-//        request.setValue("Client-ID \(imgurClientId)", forHTTPHeaderField: "Authorization")
-//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//        request.httpBody = try? JSONSerialization.data(withJSONObject: params, options: [])
-        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
         let session = URLSession.shared
         
         let task = session.dataTask(with: request, completionHandler: { data, response, error -> Void in
@@ -102,12 +99,6 @@ class PhotoListTwoVC: UIViewController {
     
 }
 
-
-// MARK: - Class UICollectionViewCell -------
-
-class collPhotoCell: UICollectionViewCell {
-    @IBOutlet weak var photo: UIImageView!
-}
 
 // MARK: - UICollectionViewDataSource protocol -------
 

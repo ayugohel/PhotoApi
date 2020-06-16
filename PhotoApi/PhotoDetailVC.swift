@@ -44,84 +44,138 @@ class PhotoDetailVC: UIViewController {
         switch apiTYPE {
             
         case .apiFirst:
-            
-            self.lblOne.text = "Photographer"
-            if let user = self.dictDetail["user"] as? String {
-                self.lblPhotographer.text = user
-            }
-            
-            self.lblTwo.text = "Tags"
-            if let tags = self.dictDetail["tags"] as? String {
-                self.lblDate.text = tags
-            }
-            
-            self.lblThree.text = "Views"
-            if let views = self.dictDetail["views"] {
-                self.lblLocation.text = String(describing: views)
-            }
-        
-            
-            self.lblFive.text = "Downloads"
-            if let downloads = self.dictDetail["downloads"] as? String {
-                self.lblFilter.text = String(describing: downloads)
-            }
-            
-            if let url = self.dictDetail["largeImageURL"] as? String {
-                photo.sd_setImage(with: URL(string: url), placeholderImage: UIImage(named: "placeholder.jpg"))
-            }
-            
+            self.setUpPixaBayApiData()
             break
             
         default:
-            
-            self.lblOne.text = "Photographer"
-            if let userData = self.dictDetail["user"] as? [String:Any] {
-                if let user = userData["username"] as? String {
-                    self.lblPhotographer.text = user
-                }
-            }
-            
-            self.lblTwo.text = "TagLine"
-            if let userData = self.dictDetail["sponsorship"] as? [String:Any] {
-                if let user = userData["tagline"] as? String {
-                    self.lblDate.text = user
-                }
-            } else {
-                self.lblDate.text = "Not Specified"
-            }
-            
-//            self.lblThree.text = "Views"
-//            if let views = self.dictDetail["views"] {
-//                self.lblLocation.text = String(describing: views)
-//            }
-            
-//            self.lblFive.text = "Downloads"
-//            if let downloads = self.dictDetail["downloads"] as? String {
-//                self.lblFilter.text = String(describing: downloads)
-//            }
-            
-            
-            if let arrURL = self.dictDetail["urls"] as? [String:Any] {
-                if let url = arrURL["full"] as? String {
-                    self.photo.sd_setImage(with: URL(string: url), placeholderImage: UIImage(named: "placeholder.jpg"))
-                }
-            }
-            
+            self.apiUnsplashPhotoDetail()
             break
         }
 
         self.photo.layer.cornerRadius = 10
+
+    }
+    
+    /**  Setup PixaBay API data  */
+    private func setUpPixaBayApiData() {
         
-        self.lblFour.text = "Likes"
+        if let user = self.dictDetail["user"] as? String {
+            self.lblPhotographer.text = user
+        }
+        
+        self.lblTwo.text = "Tags"
+        if let tags = self.dictDetail["tags"] as? String {
+            self.lblDate.text = tags
+        }
+        
+        self.lblThree.text = "Views"
+        if let views = self.dictDetail["views"] {
+            self.lblLocation.text = String(describing: views)
+        }
+        
         if let likes = self.dictDetail["likes"] {
             self.lblLikes.text = String(describing: likes)
         }
-  
+        
+        self.lblFive.text = "Downloads"
+        if let downloads = self.dictDetail["downloads"] {
+            self.lblFilter.text = String(describing: downloads)
+        }
+        
+        if let url = self.dictDetail["largeImageURL"] as? String {
+            photo.sd_setImage(with: URL(string: url), placeholderImage: UIImage(named: "placeholder.jpg"))
+        }
+        
     }
     
+    /**  Setup Unsplash  API data    */
+    
+    func setUPPhotoData() {
+        
+        if let userData = self.dictDetail["user"] as? [String:Any] {
+        if let user = userData["name"] as? String {
+                self.lblPhotographer.text = user
+            }
+        }
+        
+        self.lblTwo.text = "Description"
+        
+        if let desc = self.dictDetail["description"] as? String {
+            self.lblDate.text = desc
+        } else {
+            self.lblDate.text = "Not Specified"
+        }
+                                
+        if let location = self.dictDetail["user"] as? [String:Any] {
+            if let city = location["location"] as? String {
+                self.lblLocation.text = city
+            } else {
+                self.lblDate.text = "Not Specified"
+            }
+        }
+        
+        if let likes = self.dictDetail["likes"] {
+            self.lblLikes.text = String(describing: likes)
+        }
+        
+        self.lblFive.text = "Downloads"
+        if let downloads = self.dictDetail["downloads"] {
+            self.lblFilter.text = String(describing: downloads)
+        }
+        
+        if let arrURL = self.dictDetail["urls"] as? [String:Any] {
+            if let url = arrURL["regular"] as? String {
+                self.photo.sd_setImage(with: URL(string: url), placeholderImage: UIImage(named: "placeholder.jpg"))
+            }
+        }
+    }
+
+    /**  Photo Detail Unsplash  API    */
+
+    private func apiUnsplashPhotoDetail() {
+        
+        var ID : String = ""
+        
+        if let id = self.dictDetail["id"] as? String {
+            ID = id
+        }
+
+        let url = "https://api.unsplash.com/photos/"+ID+"?client_id="+unsplashAccessKey
+
+        var request = URLRequest(url: URL(string: url )!)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let session = URLSession.shared
+
+        let task = session.dataTask(with: request, completionHandler: { data, response, error -> Void in
+            print(response ?? "")
+
+            if error == nil && data != nil {
+
+                do {
+
+                    if let json = try JSONSerialization.jsonObject(with: data!) as? [String : Any] {
+                        print(json)
+
+                        self.dictDetail = json
+                        
+                        DispatchQueue.main.async {
+                            self.setUPPhotoData()
+                        }
+
+                    } else { return }
+
+                } catch {
+                    print("error")
+                }
+            }
+        })
+        task.resume()
+    }
+
     
     // MARK: - Actions -------
-    
     
     @IBAction func btnBackTapped(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)

@@ -7,7 +7,17 @@
 //
 
 import UIKit
-import SDWebImage
+
+// First API Screen
+
+// MARK: - Class UITableViewCell -------
+
+class TblPhotoCell: UITableViewCell {
+    
+    @IBOutlet weak var lblName: UILabel!
+    @IBOutlet weak var photo: UIImageView!
+    
+}
 
 class PhotoListOneVC: UIViewController  {
     
@@ -23,7 +33,7 @@ class PhotoListOneVC: UIViewController  {
     var arrTEMP : [[String : Any]] = [[:]]
     
     let apiTYPE = ApiType.apiFirst
-
+    
     // MARK: - Functios -------
     
     fileprivate func setupView() {
@@ -36,14 +46,17 @@ class PhotoListOneVC: UIViewController  {
     
     // MARK: - API Functions -------
     
-    
+    /** API Function for PixaBay Photos  */
+
     private func apiPIXABAY() {
         
-        var request = URLRequest(url: URL(string: "https://pixabay.com/api/?key="+API_KEY+"&image_type=photo" )!)
+        let url = "https://pixabay.com/api/?key="+API_KEY+"&image_type=photo"
         
+        var request = URLRequest(url: URL(string: url )!)
+
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-
+        
         let session = URLSession.shared
         
         let task = session.dataTask(with: request, completionHandler: { data, response, error -> Void in
@@ -89,29 +102,18 @@ class PhotoListOneVC: UIViewController  {
     
 }
 
-// MARK: - Class UITableViewCell -------
-
-class TblPhotoCell: UITableViewCell {
-    
-    @IBOutlet weak var lblName: UILabel!
-    @IBOutlet weak var photo: UIImageView!
-    
-}
-
 extension PhotoListOneVC: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-
-        if searchText.isEmpty == false {
-            self.arrPhotos = arrPhotos.filter({ ($0["tags"] as! String).contains(searchText) })
-        
-            print(arrPhotos.filter({ ($0["tags"] as! String).contains(searchText) }))
-        } else {
+    
+        if searchText.isEmpty {
             self.arrPhotos = arrTEMP
+        } else {
+            self.arrPhotos = self.arrTEMP.filter{ ($0["tags"] as! String).lowercased().range(of: searchBar.text!.lowercased()) != nil }
         }
-
+        
         self.tableviewPhotos.reloadData()
-
+        
     }
 }
 
