@@ -4,8 +4,8 @@ In this Code, I write about:
 
 ## Info about Application 
 
-- DataSource API for Photos
-- Photo's Details
+- DataSource API for Photos.
+- Each & every Photo's with respactive Details.
 - Two data source with option to switch between them.
 - Separate photo fetching functionality.
 - Search / filter photos with some user input.
