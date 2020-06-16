@@ -159,8 +159,8 @@ extension PageContentVC: UICollectionViewDataSource, UICollectionViewDelegate, U
         
         cell.lblTitle.text = arrTitle[indexPath.row].rawValue
         
-        cell.lblTitle.textColor = selectedIndex == indexPath.row ? .orange : .gray
-        cell.imgSaprator.backgroundColor = selectedIndex == indexPath.row ? .orange : .clear
+        cell.lblTitle.textColor = selectedIndex == indexPath.row ? UIColor("#F05341") : .gray
+        cell.imgSaprator.backgroundColor = selectedIndex == indexPath.row ? UIColor("#F05341") : .clear
 
         return cell
     }
